@@ -1,12 +1,10 @@
 //1..isLoggedIn=> logic=(token xa && user ko details pani xa vane .. authenticate vayo)
 
 export const isLoggedIn=()=>{
-    let data=localStorage.setItem("data");
-    if(data!=null){
-        return true;
-    }else{
-        return false;
-    }
+    let data=localStorage.getItem("data");
+    if(data!=null) return true;
+    else return false;
+    
 };
 
 
@@ -26,17 +24,17 @@ export const doLogout=(next)=>{
 
 //4. get currrent user
 export const getCurrentUserDetail=()=>{
-if(isLoggedIn){
+if(isLoggedIn ()){
     return JSON.parse(localStorage.getItem("data")).user;
 }else{
-    return false;
+    return undefined;
 }
 };
 
-// export const getToken=()=>{
-//     if(isLoggedIn()){
-//       return JSON.parse(localStorage.getItem("data")).token
-//     }else{
-//       return null;
-//     }
-//   }
+export const getToken=()=>{
+    if(isLoggedIn()){
+      return JSON.parse(localStorage.getItem("data")).token
+    }else{
+      return null;
+    }
+  }

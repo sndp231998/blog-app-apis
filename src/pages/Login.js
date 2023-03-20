@@ -16,8 +16,10 @@ import {
 } from "reactstrap";
 import Base from "../components/Base";
 import { loginUser } from "../Services/user-service";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate=useNavigate()
   const [loginDetail, setLoginDetail] = useState({
     username: "",
     password: "",
@@ -55,7 +57,7 @@ const Login = () => {
 doLogin(data,()=>{
     console.log("login detail is saved to localstorage")
     //redirect to user dashboard
-    
+    navigate("/user/dashboard")
 
 })
 
