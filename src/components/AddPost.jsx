@@ -1,4 +1,4 @@
-
+//..
 import { useEffect ,useState,useRef} from "react"
 import { Card, CardBody, Form, Input, Label, Button, Container} from "reactstrap"
 import { loadAllCategories } from "../Services/category-service"
@@ -10,17 +10,19 @@ import { createPost as doCreatePost } from "../Services/post-service"
 
 const   AddPost  = ()=> {
 
+
 const editor=useRef(null)
 //const [content,setContent] =useState('')
-
 const [categories,setCategories]=useState([])
+//kun user login xa teo thaa pauna lai
 const [user,setUser]=useState(undefined)
 
 const[post,setPost]=useState({
     title:'',
     content:'',
-    categoryId:-1
+    categoryId:''
 })
+
 
     useEffect(
         ()=>{
@@ -37,12 +39,17 @@ loadAllCategories().then((data)=>{
     //fieldChange function
     const fieldChanged=(event)=>{
        // console.log(event)
-        setPost({...post,[event.target.name]:event.target.value})
+     setPost({...post,[event.target.name]:event.target.value})
+    //setPost({...post,'title':event.target.value})
     }
+    //------------Content Field ko lagi matra yo -(because of jodit editor)--------------------
     const contentFieldChanged=(data)=>{
         setPost({...post,'content':data})
     }
-    //create post function
+
+    //--------------create post function--------------
+    //form submit garne bitike yo call hunxa--------
+
     const createPost=(event)=>{
         event.preventDefault();
       //  console.log(post)
@@ -57,21 +64,32 @@ loadAllCategories().then((data)=>{
            alert("select  category !!") 
            return;
         }
-        //submit the form on server
-        post['userId']=user.id
-doCreatePost(post).then(data=>{
-    alert("Post created")
+
+    //-------------submit the form on server-------------
+post['userId']=user.id
+    doCreatePost(post).then(data=>{
+    alert("post is created")
     console.log(post)
 }).catch((error)=>{
     alert("error")
     console.log(error)
-})
-    }
+    })
+}
+    // dopost['userId']=user.id
+// createPost(post). then(data=>{
+//     alert("Post created")
+//     console.log(post)
+// }).catch((error)=>{
+//     alert("error")
+//     console.log(error)
+// })
+ //   }
     return (
         <div className="wrapper">
         <Card className="shadow-sm  border-0 mt-2">
             <CardBody>
                  {/* {JSON.stringify(post)}  */}
+   
                 <h3>What going in your mind ?</h3>
                 <Form onSubmit={createPost}>
                     <div className="my-3">
