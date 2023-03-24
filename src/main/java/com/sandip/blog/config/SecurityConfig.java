@@ -92,11 +92,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    public PasswordEncoder passwordEncoder() {
 	        return new BCryptPasswordEncoder();
 	    }
-	  
-	  @Bean
+	@Bean
 	  @Override
 	  public AuthenticationManager authenticationManagerBean()throws Exception{
 		  return super.authenticationManagerBean();
 	  }
+	  
+	  
+//0beccause of react 	  
+	  @Bean
+	    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration configuration) throws Exception {
+	        return configuration.getAuthenticationManager();
+	    }
+	  //jun url ma frontend ma chali rako xa teslai matra allow garnu parxa , yah garya xina
+	  @Bean
+	    public FilterRegistrationBean coresFilter() {
+	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+	        CorsConfiguration corsConfiguration = new CorsConfiguration();
+	        corsConfiguration.setAllowCredentials(true);
+	        corsConfiguration.addAllowedOriginPattern("*");
+	        corsConfiguration.addAllowedHeader("Authorization");
+	        corsConfiguration.addAllowedHeader("Content-Type");
+	        corsConfiguration.addAllowedHeader("Accept");
+	        corsConfiguration.addAllowedMethod("POST");
+	        corsConfiguration.addAllowedMethod("GET");
+	        corsConfiguration.addAllowedMethod("DELETE");
+	        corsConfiguration.addAllowedMethod("PUT");
+	        corsConfiguration.addAllowedMethod("OPTIONS");
+	        corsConfiguration.setMaxAge(3600L);
+
+	        source.registerCorsConfiguration("/**", corsConfiguration);
+
+	        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+
+	        bean.setOrder(-110);
+
+	        return bean;
+	    }
+
 	
 }
+
